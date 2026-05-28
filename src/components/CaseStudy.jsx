@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowRight, ArrowUpRight, BarChart2, Route, Zap, Sparkles } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BarChart2, Route, Zap, Sparkles, Download, Calendar, LayoutGrid, Activity, Info, ToggleRight, PanelLeft } from 'lucide-react';
 import clsx from 'clsx';
 
 const DASHBOARD_URL = '/gpts/g-6a0f3e130afc8191851f1fcbd820b918-sallutweets/analytics';
@@ -62,6 +62,17 @@ const TECH = [
   { name: 'Recharts', role: 'Data viz', icon: BarChart2, color: '#F59E0B' },
   { name: 'React Router', role: 'Routing', icon: Route, color: '#EF4444' },
   { name: 'Claude Code', role: 'Built with', icon: Sparkles, color: '#D97757' },
+];
+
+const FEATURES = [
+  { name: 'Export to CSV', icon: Download, color: '#19C37D', desc: 'One click exports every KPI, metric, and time series into a clean, timestamped CSV that opens straight in a spreadsheet.' },
+  { name: 'AI Insights', icon: Sparkles, color: '#8B5CF6', desc: 'An on-demand panel reads the current period and writes plain-English notes on growth, engagement, retention, and what to do next.' },
+  { name: 'Date & Period Filters', icon: Calendar, color: '#F59E0B', desc: 'A booking-style range picker with presets from one day to all time. Every KPI and chart recomputes live as you change it.' },
+  { name: 'Activity Heatmap', icon: LayoutGrid, color: '#26A641', desc: 'A GitHub-style contribution calendar with month and year navigation and a session count on every day you hover.' },
+  { name: 'Interactive Charts', icon: Activity, color: '#6366F1', desc: 'Area, bar, line, donut, and funnel charts with custom hover tooltips and daily, weekly, and monthly toggles.' },
+  { name: 'Smart Tooltips', icon: Info, color: '#06B6D4', desc: 'Every metric carries an info tooltip that flips above or below itself based on where it sits in the viewport.' },
+  { name: 'Prompt-Sharing Toggle', icon: ToggleRight, color: '#EC4899', desc: 'An anonymous prompt-sharing switch with a hover help popover, mirroring a real product settings control.' },
+  { name: 'Collapsible Sidebar', icon: PanelLeft, color: '#A855F7', desc: 'A ChatGPT-style sidebar that collapses to icons, with routing across every GPT in the workspace.' },
 ];
 
 function Mark({ children }) {
@@ -131,32 +142,42 @@ function Frame({ label, icon, children, dot = false, href }) {
   );
 }
 
-// Renders a full desktop view of the dashboard, scaled to fit its column. Stays interactive.
+// Renders a full desktop view of the dashboard, scaled to fit both its column width
+// and the available viewport height, so the hero never forces a scroll. Stays interactive.
 function ScaledFrame({ src, title, baseWidth = 1280, baseHeight = 820 }) {
   const ref = useRef(null);
   const [scale, setScale] = useState(0.5);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const update = () => setScale(el.clientWidth / baseWidth);
+    const update = () => {
+      const w = el.clientWidth;
+      let s = w / baseWidth;
+      const cap = window.innerHeight - 280;
+      if (cap > 240 && baseHeight * s > cap) s = cap / baseHeight;
+      setScale(s);
+    };
     update();
     const ro = new ResizeObserver(update);
     ro.observe(el);
-    return () => ro.disconnect();
-  }, [baseWidth]);
+    window.addEventListener('resize', update);
+    return () => { ro.disconnect(); window.removeEventListener('resize', update); };
+  }, [baseWidth, baseHeight]);
   return (
-    <div ref={ref} style={{ width: '100%', height: baseHeight * scale, overflow: 'hidden', position: 'relative' }}>
-      <iframe
-        src={src}
-        title={title}
-        style={{
-          width: baseWidth,
-          height: baseHeight,
-          border: 'none',
-          transform: `scale(${scale})`,
-          transformOrigin: 'top left',
-        }}
-      />
+    <div ref={ref} className="w-full flex justify-center">
+      <div style={{ width: baseWidth * scale, height: baseHeight * scale, overflow: 'hidden', position: 'relative' }}>
+        <iframe
+          src={src}
+          title={title}
+          style={{
+            width: baseWidth,
+            height: baseHeight,
+            border: 'none',
+            transform: `scale(${scale})`,
+            transformOrigin: 'top left',
+          }}
+        />
+      </div>
     </div>
   );
 }
@@ -513,7 +534,7 @@ export default function CaseStudy() {
       </header>
 
       {/* ── Main ── */}
-      <main className="flex-1 max-w-6xl mx-auto w-full px-5 sm:px-8 py-14 sm:py-16">
+      <main className="flex-1 max-w-6xl mx-auto w-full px-5 sm:px-8 py-6 sm:py-8">
         <div
           style={{
             opacity: tabVisible ? 1 : 0,
@@ -524,25 +545,16 @@ export default function CaseStudy() {
 
           {/* ═══════════ WHAT IT IS ═══════════ */}
           {activeTab === 'project' && (
-            <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-center lg:min-h-[68vh]">
+            <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
               {/* LEFT — text */}
               <div className="lg:col-span-5 space-y-6">
-                <div className="inline-flex items-center gap-2 pl-2 pr-3.5 py-1.5 rounded-full bg-white border border-stone-200 shadow-sm">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500" />
-                  </span>
-                  <span className="text-[12.5px] font-semibold text-stone-600 tracking-tight">
-                    A concept dashboard, built from a real problem
-                  </span>
-                </div>
 
-                <h1 className="text-[2.35rem] sm:text-[2.9rem] lg:text-[3.05rem] font-extrabold tracking-tighter leading-[1.05] text-stone-900">
+                <h1 className="group text-[2.35rem] sm:text-[2.9rem] lg:text-[3.05rem] font-extrabold tracking-tighter leading-[1.05] text-stone-900">
                   OpenAI forgot to build an analytics page for their custom GPTs.
                   <br />
                   <span className="relative inline-block text-amber-700">
                     I built one myself.
-                    <span className="absolute left-0 -bottom-1 w-full h-[6px] bg-amber-300/50 rounded-full -z-0" />
+                    <span className="absolute left-0 -bottom-1 w-full h-[6px] bg-amber-300/50 rounded-full -z-0 transition-all duration-300 group-hover:h-[11px] group-hover:bg-amber-300/70" />
                   </span>
                 </h1>
 
@@ -551,28 +563,20 @@ export default function CaseStudy() {
                   <Mark>should actually look like</Mark>. Sessions, retention, tool usage,
                   models, and everything else OpenAI never shipped.
                 </p>
-
-                <div className="flex flex-wrap items-center gap-x-5 gap-y-2 pt-1 text-[15px] text-stone-500">
-                  <span><strong className="text-stone-900 font-bold">6</strong> sections</span>
-                  <span className="text-stone-300">·</span>
-                  <span><strong className="text-stone-900 font-bold">30+</strong> metrics</span>
-                  <span className="text-stone-300">·</span>
-                  <span><strong className="text-stone-900 font-bold">Fully</strong> interactive</span>
-                </div>
               </div>
 
               {/* RIGHT — live dashboard */}
               <div className="lg:col-span-7">
                 <FadeUp delay={60}>
                   <Frame
-                    label="sallutweets / analytics"
+                    label="customgpt / analytics"
                     icon={<BarChart2 size={11} className="text-amber-600" />}
                     href={DASHBOARD_URL}
                   >
                     <ScaledFrame src={DASHBOARD_URL} title="Custom GPT Analytics Dashboard" />
                   </Frame>
-                  <p className="text-center text-[12px] text-stone-400 mt-3">
-                    This is the real dashboard, running live. Scroll and click inside it.
+                  <p className="text-center text-[14px] text-stone-800 mt-3">
+                    This is running live. Play with it!
                   </p>
                 </FadeUp>
               </div>
@@ -584,8 +588,8 @@ export default function CaseStudy() {
             <div className="max-w-2xl mx-auto space-y-20">
 
               <FadeUp>
-                <div className="space-y-6">
-                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight">How It Started</h2>
+                <div className="space-y-6 group">
+                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">How It Started</h2>
                   <div className="space-y-5 text-[17px] text-stone-700 leading-[1.75]">
                     <p>
                       One evening, scrolling X, vintage 2010 Salman Khan tweets started flooding my
@@ -604,7 +608,7 @@ export default function CaseStudy() {
                     </p>
                   </div>
                   <Frame
-                    label="SalluTweets GPT"
+                    label="Custom GPT"
                     icon={<XLogo className="w-3 h-3 text-stone-400" />}
                     href={SALLUTWEETS_URL}
                   >
@@ -614,8 +618,8 @@ export default function CaseStudy() {
               </FadeUp>
 
               <FadeUp delay={80}>
-                <div className="space-y-6">
-                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight">The Problem</h2>
+                <div className="space-y-6 group">
+                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">The Problem</h2>
                   <div className="space-y-5 text-[17px] text-stone-700 leading-[1.75]">
                     <p>
                       It caught on fast.{' '}
@@ -653,12 +657,12 @@ export default function CaseStudy() {
 
               {/* Chapter 01 */}
               <FadeUp>
-                <section className="space-y-6">
+                <section className="space-y-6 group">
                   <div className="flex items-center gap-4">
-                    <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white text-xs font-bold font-mono flex items-center justify-center">01</span>
-                    <span className="h-px flex-1 bg-stone-200" />
+                    <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white text-xs font-bold font-mono flex items-center justify-center transition-all duration-300 group-hover:bg-amber-600 group-hover:scale-110 group-hover:rotate-6">01</span>
+                    <span className="h-px flex-1 bg-stone-200 transition-colors duration-300 group-hover:bg-amber-200" />
                   </div>
-                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight">
+                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">
                     Choosing the Right Metrics
                   </h2>
                   <div className="space-y-5 text-[17px] text-stone-700 leading-[1.75] max-w-2xl">
@@ -681,12 +685,12 @@ export default function CaseStudy() {
 
               {/* Chapter 02 */}
               <FadeUp delay={60}>
-                <section className="space-y-6">
+                <section className="space-y-6 group">
                   <div className="flex items-center gap-4">
-                    <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white text-xs font-bold font-mono flex items-center justify-center">02</span>
-                    <span className="h-px flex-1 bg-stone-200" />
+                    <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white text-xs font-bold font-mono flex items-center justify-center transition-all duration-300 group-hover:bg-amber-600 group-hover:scale-110 group-hover:rotate-6">02</span>
+                    <span className="h-px flex-1 bg-stone-200 transition-colors duration-300 group-hover:bg-amber-200" />
                   </div>
-                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight">
+                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">
                     The 6 Analytics Sections
                   </h2>
                   <p className="text-[17px] text-stone-600 max-w-2xl leading-relaxed">
@@ -701,10 +705,10 @@ export default function CaseStudy() {
                           key={s.id}
                           onClick={() => selectSection(s.id)}
                           className={clsx(
-                            'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-left transition-all whitespace-nowrap lg:whitespace-normal shrink-0 lg:shrink active:scale-[0.98]',
+                            'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-left transition-all duration-200 whitespace-nowrap lg:whitespace-normal shrink-0 lg:shrink active:scale-[0.98]',
                             selectedSection === s.id
-                              ? 'bg-stone-900 text-white shadow-sm'
-                              : 'bg-white border border-stone-200 text-stone-600 hover:border-stone-300 hover:text-stone-900'
+                              ? 'bg-stone-900 text-white shadow-md lg:translate-x-1'
+                              : 'bg-white border border-stone-200 text-stone-600 hover:border-amber-300 hover:text-stone-900 hover:-translate-y-0.5 hover:shadow-md'
                           )}
                         >
                           <span className={clsx(
@@ -731,10 +735,10 @@ export default function CaseStudy() {
                               key={m.name}
                               onClick={() => setExpandedMetric(m.name)}
                               className={clsx(
-                                'px-3.5 py-2 rounded-lg text-[13px] font-semibold border transition-all active:scale-95',
+                                'px-3.5 py-2 rounded-lg text-[13px] font-semibold border transition-all duration-200 active:scale-95',
                                 expandedData?.name === m.name
-                                  ? 'bg-stone-900 text-white border-stone-900 shadow-sm'
-                                  : 'bg-stone-50 text-stone-700 border-stone-200 hover:border-stone-400 hover:text-stone-900 hover:bg-white'
+                                  ? 'bg-stone-900 text-white border-stone-900 shadow-md scale-[1.03]'
+                                  : 'bg-stone-50 text-stone-700 border-stone-200 hover:border-amber-400 hover:text-amber-800 hover:bg-amber-50 hover:-translate-y-0.5 hover:shadow-md'
                               )}
                             >
                               {m.name}
@@ -760,14 +764,50 @@ export default function CaseStudy() {
                 </section>
               </FadeUp>
 
-              {/* Chapter 03 */}
+              {/* Chapter 03 — features */}
               <FadeUp delay={120}>
-                <section className="space-y-6">
+                <section className="space-y-6 group">
                   <div className="flex items-center gap-4">
-                    <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white text-xs font-bold font-mono flex items-center justify-center">03</span>
-                    <span className="h-px flex-1 bg-stone-200" />
+                    <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white text-xs font-bold font-mono flex items-center justify-center transition-all duration-300 group-hover:bg-amber-600 group-hover:scale-110 group-hover:rotate-6">03</span>
+                    <span className="h-px flex-1 bg-stone-200 transition-colors duration-300 group-hover:bg-amber-200" />
                   </div>
-                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight">
+                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">
+                    What It Can Do
+                  </h2>
+                  <p className="text-[17px] text-stone-700 leading-[1.75] max-w-2xl">
+                    The dashboard is not a static mockup. Every control below actually works in the
+                    live demo, so reviewers can poke at the real thing.
+                  </p>
+                  <div className="grid sm:grid-cols-2 gap-3 pt-1">
+                    {FEATURES.map(({ name, desc, icon: Icon, color }) => (
+                      <div
+                        key={name}
+                        className="flex items-start gap-3.5 p-4 bg-white border border-stone-200 rounded-xl shadow-sm hover:border-amber-300 hover:shadow-lg hover:-translate-y-1 transition-all duration-200"
+                      >
+                        <span
+                          className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center mt-0.5"
+                          style={{ backgroundColor: `${color}1A`, color }}
+                        >
+                          <Icon size={18} strokeWidth={2.2} />
+                        </span>
+                        <div className="min-w-0">
+                          <p className="text-[15px] font-bold text-stone-900">{name}</p>
+                          <p className="text-[13px] text-stone-600 leading-relaxed mt-0.5">{desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </section>
+              </FadeUp>
+
+              {/* Chapter 04 — stack */}
+              <FadeUp delay={160}>
+                <section className="space-y-6 group">
+                  <div className="flex items-center gap-4">
+                    <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white text-xs font-bold font-mono flex items-center justify-center transition-all duration-300 group-hover:bg-amber-600 group-hover:scale-110 group-hover:rotate-6">04</span>
+                    <span className="h-px flex-1 bg-stone-200 transition-colors duration-300 group-hover:bg-amber-200" />
+                  </div>
+                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">
                     The Stack
                   </h2>
                   <p className="text-[17px] text-stone-700 leading-[1.75] max-w-2xl">
@@ -780,7 +820,7 @@ export default function CaseStudy() {
                     {TECH.map(({ name, role, logo: Logo, icon: Icon, color }) => (
                       <div
                         key={name}
-                        className="flex items-center gap-3 px-4 py-3.5 bg-white border border-stone-200 rounded-xl shadow-sm hover:border-stone-300 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+                        className="flex items-center gap-3 px-4 py-3.5 bg-white border border-stone-200 rounded-xl shadow-sm hover:border-amber-300 hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02] transition-all duration-200"
                       >
                         <span
                           className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
