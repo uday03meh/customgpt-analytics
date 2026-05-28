@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useParams, Navigate, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import MyGPTs from './components/MyGPTs';
@@ -137,7 +137,14 @@ function AnalyticsPage({ collapsed, setCollapsed }) {
 
 // ─── Root ─────────────────────────────────────────────────────────────────────
 export default function App() {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(() => typeof window !== 'undefined' && window.innerWidth < 1024);
+
+  // Keep the sidebar collapsed on small screens so the dashboard is usable on mobile
+  useEffect(() => {
+    const onResize = () => { if (window.innerWidth < 1024) setCollapsed(true); };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   return (
     <Routes>

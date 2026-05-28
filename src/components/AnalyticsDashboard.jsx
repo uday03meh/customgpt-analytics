@@ -1864,7 +1864,7 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
 
   return (
     <div className="flex-1 overflow-y-auto bg-[#212121]">
-      <div className="max-w-5xl mx-auto px-6 py-6">
+      <div className="max-w-5xl mx-auto px-3 sm:px-6 py-6">
 
         {/* Back */}
         <button
@@ -2175,7 +2175,7 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-0 mb-5 border-b border-[#262626]">
+        <div className="flex items-center gap-0 mb-5 border-b border-[#262626] overflow-x-auto scrollbar-thin">
           {TABS.map(tab => (
             <button
               key={tab.id}

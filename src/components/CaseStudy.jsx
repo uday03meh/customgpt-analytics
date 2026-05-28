@@ -549,7 +549,7 @@ export default function CaseStudy() {
               {/* LEFT — text */}
               <div className="lg:col-span-5 space-y-6">
 
-                <h1 className="group text-[2.35rem] sm:text-[2.9rem] lg:text-[3.05rem] font-extrabold tracking-tighter leading-[1.05] text-stone-900">
+                <h1 className="group text-[2rem] sm:text-[2.6rem] lg:text-[3.05rem] font-extrabold tracking-tighter leading-[1.06] text-stone-900">
                   OpenAI forgot to build an analytics page for their custom GPTs.
                   <br />
                   <span className="relative inline-block text-amber-700">
@@ -573,10 +573,25 @@ export default function CaseStudy() {
                     icon={<BarChart2 size={11} className="text-amber-600" />}
                     href={DASHBOARD_URL}
                   >
-                    <ScaledFrame src={DASHBOARD_URL} title="Custom GPT Analytics Dashboard" />
+                    <div className="hidden lg:block">
+                      <ScaledFrame src={DASHBOARD_URL} title="Custom GPT Analytics Dashboard" />
+                    </div>
+                    <a
+                      href={DASHBOARD_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block lg:hidden active:opacity-90 transition-opacity"
+                    >
+                      <img
+                        src="/dashboard-screenshot.png"
+                        alt="Custom GPT Analytics Dashboard"
+                        className="w-full block"
+                      />
+                    </a>
                   </Frame>
                   <p className="text-center text-[14px] text-stone-800 mt-3">
-                    This is running live. Play with it!
+                    <span className="hidden lg:inline">This is running live. Play with it!</span>
+                    <span className="lg:hidden">Tap to open the live dashboard.</span>
                   </p>
                 </FadeUp>
               </div>

@@ -31,6 +31,7 @@ function GPTCard({ gpt, onAnalytics, index }) {
         visible ? 'animate-fade-slide-up' : 'opacity-0'
       )}
       style={{ animationDelay: `${index * 0.07}s` }}
+      onClick={() => onAnalytics(gpt)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => { setHovered(false); setMenuOpen(false); }}
     >
@@ -73,10 +74,11 @@ function GPTCard({ gpt, onAnalytics, index }) {
         </div>
       </div>
 
-      {/* Actions — visible on hover */}
+      {/* Actions — always visible on mobile, hover-reveal on desktop */}
       <div className={clsx(
-        'flex items-center gap-1 transition-all duration-150',
-        hovered ? 'opacity-100' : 'opacity-0'
+        'flex items-center gap-1 transition-all duration-150 shrink-0',
+        'opacity-100',
+        hovered ? 'sm:opacity-100' : 'sm:opacity-0'
       )}>
         <button
           onClick={(e) => { e.stopPropagation(); onAnalytics(gpt); }}
@@ -88,7 +90,7 @@ function GPTCard({ gpt, onAnalytics, index }) {
 
         <button
           onClick={(e) => e.stopPropagation()}
-          className="p-2 rounded-lg hover:bg-[#1e1e1e] text-[#71717a] hover:text-[#e4e4e7] transition-colors"
+          className="hidden sm:block p-2 rounded-lg hover:bg-[#1e1e1e] text-[#71717a] hover:text-[#e4e4e7] transition-colors"
           title="Edit GPT"
         >
           <Pencil size={13} />
@@ -96,14 +98,14 @@ function GPTCard({ gpt, onAnalytics, index }) {
 
         <button
           onClick={(e) => e.stopPropagation()}
-          className="p-2 rounded-lg hover:bg-[#1e1e1e] text-[#71717a] hover:text-[#e4e4e7] transition-colors"
+          className="hidden sm:block p-2 rounded-lg hover:bg-[#1e1e1e] text-[#71717a] hover:text-[#e4e4e7] transition-colors"
           title="Share GPT"
         >
           <Share2 size={13} />
         </button>
 
         {/* More dropdown */}
-        <div className="relative">
+        <div className="relative hidden sm:block">
           <button
             onClick={(e) => { e.stopPropagation(); setMenuOpen(v => !v); }}
             className="p-2 rounded-lg hover:bg-[#1e1e1e] text-[#71717a] hover:text-[#e4e4e7] transition-colors"
@@ -147,7 +149,7 @@ export default function MyGPTs({ onAnalytics }) {
       <div className="max-w-3xl mx-auto px-6 py-8">
 
         {/* Header */}
-        <div className="flex items-start justify-between mb-5 animate-fade-slide-up">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5 animate-fade-slide-up">
           <div>
             <div className="flex items-center gap-1.5 text-xs text-[#71717a] mb-2">
               <span className="hover:text-[#a1a1aa] cursor-pointer transition-colors font-medium">Explore GPTs</span>
@@ -159,7 +161,7 @@ export default function MyGPTs({ onAnalytics }) {
           </div>
           <button 
             onClick={() => window.open('/', '_blank')}
-            className="flex items-center gap-2 px-4 py-2.5 bg-[#8b5cf6] hover:bg-[#7c3aed] text-white text-xs font-bold rounded-lg transition-colors mt-6 active:scale-[0.97]"
+            className="flex items-center gap-2 px-4 py-2.5 bg-[#8b5cf6] hover:bg-[#7c3aed] text-white text-xs font-bold rounded-lg transition-colors sm:mt-6 shrink-0 self-start active:scale-[0.97]"
           >
             <Sparkles size={13} />
             Behind the Build Story

@@ -231,12 +231,12 @@ export default function AllGPTs({ onAnalytics }) {
                 <div
                   key={g.name}
                   onClick={() => gptObj && onAnalytics(gptObj)}
-                  className="flex items-center gap-4 px-5 py-3.5 hover:bg-[#1c1c1f] cursor-pointer transition-colors group"
+                  className="flex items-center gap-3 sm:gap-4 px-3 sm:px-5 py-3.5 hover:bg-[#1c1c1f] cursor-pointer transition-colors group"
                 >
                   <span className="text-lg w-7 shrink-0">{g.emoji}</span>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-[#e4e4e7] group-hover:text-white transition-colors">{g.name}</p>
-                    <div className="mt-1.5 h-1.5 w-40 bg-[#1e1e21] rounded-full overflow-hidden">
+                    <p className="text-sm font-semibold text-[#e4e4e7] group-hover:text-white transition-colors truncate">{g.name}</p>
+                    <div className="mt-1.5 h-1.5 w-32 sm:w-40 max-w-full bg-[#1e1e21] rounded-full overflow-hidden">
                       <div
                         className="h-full rounded-full transition-all duration-500"
                         style={{
@@ -247,7 +247,7 @@ export default function AllGPTs({ onAnalytics }) {
                       />
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-6 text-right">
+                  <div className="grid grid-cols-3 gap-3 sm:gap-6 text-right shrink-0">
                     <div>
                       <p className="text-xs font-semibold text-[#e4e4e7]">{g.chats.toLocaleString()}</p>
                       <p className="text-[10px] text-[#71717a] mt-0.5 font-bold uppercase tracking-wider">Chats</p>
