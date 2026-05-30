@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
-import { ArrowRight, ArrowUpRight, BarChart2, Route, Zap, Sparkles, Download, Calendar, LayoutGrid, Activity, Info, ToggleRight, PanelLeft } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, BarChart2, Route, Zap, Sparkles, Download, Calendar, LayoutGrid, Activity, Info, ToggleRight, PanelLeft, ChevronDown, ChevronRight } from 'lucide-react';
 import clsx from 'clsx';
 
 const DASHBOARD_URL = '/gpts/g-6a0f3e130afc8191851f1fcbd820b918-sallutweets/analytics';
 const SALLUTWEETS_URL = 'https://chatgpt.com/g/g-6a0f3e130afc8191851f1fcbd820b918-sallutweets';
 const LINKEDIN_URL = 'https://www.linkedin.com/in/udaymehtani/';
-const GITHUB_URL = 'https://github.com';
+const GITHUB_URL = 'https://github.com/uday03meh/customgpt-analytics';
 
 // Brand mark — identical to favicon.svg so the tab icon and header logo match
 function BrandMark({ className = 'w-5 h-5' }) {
@@ -56,12 +56,12 @@ function TailwindLogo({ className = 'w-4 h-4' }) {
 }
 
 const TECH = [
-  { name: 'React 18', role: 'UI framework', logo: ReactLogo, color: '#149ECA' },
-  { name: 'Tailwind CSS', role: 'Styling', logo: TailwindLogo, color: '#38BDF8' },
-  { name: 'Vite', role: 'Build tool', icon: Zap, color: '#A855F7' },
-  { name: 'Recharts', role: 'Data viz', icon: BarChart2, color: '#F59E0B' },
-  { name: 'React Router', role: 'Routing', icon: Route, color: '#EF4444' },
-  { name: 'Claude Code', role: 'Built with', icon: Sparkles, color: '#D97757' },
+  { name: 'React 18', why: 'Right shape for a UI made of small reactive cards and charts.', logo: ReactLogo, color: '#149ECA' },
+  { name: 'Tailwind CSS', why: 'One utility system across the dark dashboard and the light landing.', logo: TailwindLogo, color: '#38BDF8' },
+  { name: 'Vite', why: 'Fast HMR kept iteration on charts and layouts in flow.', icon: Zap, color: '#A855F7' },
+  { name: 'Recharts', why: 'Every chart shape I needed, line, area, bar, donut, funnel, in one React library.', icon: BarChart2, color: '#F59E0B' },
+  { name: 'React Router', why: 'Clean multi-page navigation across GPTs without a backend.', icon: Route, color: '#EF4444' },
+  { name: 'Claude Code', why: 'Wrote the frontend so I could focus on what to measure, not how.', icon: Sparkles, color: '#D97757' },
 ];
 
 const FEATURES = [
@@ -75,9 +75,104 @@ const FEATURES = [
   { name: 'Collapsible Sidebar', icon: PanelLeft, color: '#A855F7', desc: 'A ChatGPT-style sidebar that collapses to icons, with routing across every GPT in the workspace.' },
 ];
 
+const CUT_METRICS = [
+  { title: 'Time on Page', body: "Sounds like engagement but is really just user inattention. Long time-on-page often means the GPT didn't answer in the first reply, so the user walked away to look elsewhere. Worse than a fast resolve, not better." },
+  { title: 'Net Promoter Score', body: 'Asking inside a single-turn tool "would you recommend this" does not fit the moment. There is no clean surface to prompt for it, response rates would be tiny, and the score moves on noise.' },
+  { title: 'Total Tokens Consumed', body: 'The raw cost number is interesting to OpenAI, not to a creator. There is no action a creator can take with it. The closer view, Avg Tokens / Session by model, is already in the Models section and is actually decision-useful.' },
+  { title: 'Number of Files Uploaded', body: 'A vanity count. The Knowledge section already shows per-file retrieval, success, and abandonment, which is what actually matters. Counting files measures effort, not value.' },
+  { title: 'Star Rating', body: "OpenAI doesn't expose star ratings at the GPT level today, and even if it did, a single number cannot separate \"great answer, wrong tone\" from \"wrong answer, friendly tone.\" Thumbs-down rate paired with session depth captures the same signal more cleanly." },
+];
+
+const IMPACT_POINTS = [
+  { title: 'Creators iterate weekly, not monthly', body: 'Without analytics, creators publish a GPT once and walk away. With a dashboard like this, Monday morning becomes a ritual: check last week\'s bounce and refusal rates, tweak the instructions, ship. That tightens the build-measure-learn loop from months to days.' },
+  { title: 'A real differentiation lever for the creator tier', body: 'Today there is nothing in the OpenAI creator portal that makes paying for ChatGPT Plus feel different from using the free consumer app. A dashboard like this is a clear "this is for serious creators" tier feature, which is exactly the kind of thing that drives upgrade intent.' },
+  { title: 'Better GPTs reach end users', body: 'The second-order effect. When creators can see which files bloat their responses and which tools never get invoked, they prune them. End users get tighter, faster, more useful GPTs without ever having to ask for the change.' },
+];
+
+const CHAPTERS = [
+  { num: '01', id: 'chapter-01', title: 'Choosing the Right Metrics', blurb: 'How the shortlist came out of 40+ candidates.' },
+  { num: '02', id: 'chapter-02', title: 'The 6 Analytics Sections', blurb: 'Why these six groupings, and what each one shows.' },
+  { num: '03', id: 'chapter-03', title: 'What the Dashboard Actually Does', blurb: 'The interactive features built on top of the metrics.' },
+  { num: '04', id: 'chapter-04', title: "What Didn't Make the Cut", blurb: 'Five common metrics I considered and chose to leave out.' },
+  { num: '05', id: 'chapter-05', title: "What's the Impact This Can Bring", blurb: 'Three things this would actually change if it shipped.' },
+  { num: '06', id: 'chapter-06', title: 'The Tech Stack Behind It', blurb: 'The tools the frontend was built with, and why each.' },
+];
+
+function ProcessFlow({ chapters }) {
+  const jumpTo = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+  return (
+    <div className="bg-white border border-stone-200 rounded-2xl p-5 sm:p-7 shadow-sm">
+      {/* <div className="mb-5"> */}
+      {/* <p className="text-[10px] font-mono uppercase tracking-widest text-amber-700 font-bold">Process map</p> */}
+      {/* <p className="text-[15px] text-stone-700 mt-1.5 leading-relaxed">
+          The whole build, top-down. Tap a step to jump to its details below.
+        </p> */}
+      {/* </div> */}
+      <h2 className="text-4xl sm:text-5xl py-4 font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 hover:text-amber-700">How I Built It?</h2>
+      <div className="relative">
+        <div className="absolute left-5 top-5 bottom-5 w-px bg-stone-200" aria-hidden="true" />
+        <ol className="space-y-1 relative">
+          {chapters.map((c) => (
+            <li key={c.num}>
+              <button
+                onClick={() => jumpTo(c.id)}
+                className="w-full flex items-start gap-4 p-2.5 rounded-xl hover:bg-amber-50/60 transition-colors group text-left active:scale-[0.995]"
+              >
+                <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white flex items-center justify-center font-mono text-xs font-bold relative z-10 group-hover:bg-amber-600 group-hover:scale-110 transition-all duration-200">
+                  {c.num}
+                </span>
+                <div className="flex-1 min-w-0 pt-1">
+                  <p className="text-[15px] font-bold text-stone-900 group-hover:text-amber-700 transition-colors">{c.title}</p>
+                  <p className="text-[13px] text-stone-700 mt-0.5 leading-snug">{c.blurb}</p>
+                </div>
+                <ChevronRight size={16} className="text-stone-300 group-hover:text-amber-600 group-hover:translate-x-1 transition-all duration-200 mt-3 shrink-0" />
+              </button>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  );
+}
+
+function AccordionItem({ title, body }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className={clsx(
+      'border rounded-xl bg-white overflow-hidden transition-all duration-200',
+      open ? 'border-amber-300 shadow-sm' : 'border-stone-200 hover:border-amber-300 hover:shadow-sm'
+    )}>
+      <button
+        onClick={() => setOpen(v => !v)}
+        className="w-full flex items-center justify-between gap-4 px-5 py-4 text-left active:scale-[0.995] transition-transform"
+      >
+        <span className={clsx(
+          'text-[15px] font-bold transition-colors',
+          open ? 'text-amber-700' : 'text-stone-900'
+        )}>{title}</span>
+        <ChevronDown
+          size={18}
+          className={clsx(
+            'shrink-0 transition-all duration-200',
+            open ? 'rotate-180 text-amber-600' : 'text-stone-400'
+          )}
+        />
+      </button>
+      {open && (
+        <div className="px-5 pb-5 border-t border-stone-100">
+          <p className="text-[15px] text-stone-700 leading-[1.75] pt-4">{body}</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Mark({ children }) {
   return (
-    <mark className="bg-amber-200/60 text-stone-900 rounded px-1 box-decoration-clone">
+    <mark className="p-2 bg-amber-300/70 text-stone-900 font-bold box-decoration-clone">
       {children}
     </mark>
   );
@@ -147,6 +242,7 @@ function Frame({ label, icon, children, dot = false, href }) {
 function ScaledFrame({ src, title, baseWidth = 1280, baseHeight = 820 }) {
   const ref = useRef(null);
   const [scale, setScale] = useState(0.5);
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
@@ -166,9 +262,16 @@ function ScaledFrame({ src, title, baseWidth = 1280, baseHeight = 820 }) {
   return (
     <div ref={ref} className="w-full flex justify-center">
       <div style={{ width: baseWidth * scale, height: baseHeight * scale, overflow: 'hidden', position: 'relative' }}>
+        {!loaded && (
+          <div className="absolute inset-0 z-10 bg-stone-50 flex flex-col items-center justify-center gap-3 animate-pulse">
+            <div className="w-8 h-8 border-[3px] border-stone-200 border-t-amber-500 rounded-full animate-spin" />
+            <span className="text-[11px] font-mono uppercase tracking-widest text-stone-400">Loading dashboard</span>
+          </div>
+        )}
         <iframe
           src={src}
           title={title}
+          onLoad={() => setLoaded(true)}
           style={{
             width: baseWidth,
             height: baseHeight,
@@ -429,9 +532,9 @@ const ANALYTICS = [
 ];
 
 const TABS = [
-  { id: 'project', label: 'What It Is', short: 'Overview' },
-  { id: 'story', label: 'How It Started', short: 'Story' },
-  { id: 'build', label: 'How It Was Built', short: 'Build' },
+  { id: 'project', label: 'WHAT?', short: 'Overview' },
+  { id: 'story', label: 'WHY?', short: 'Story' },
+  { id: 'build', label: 'HOW?', short: 'Build' },
 ];
 
 export default function CaseStudy() {
@@ -474,7 +577,7 @@ export default function CaseStudy() {
         key={tab.id}
         onClick={() => switchTab(tab.id)}
         className={clsx(
-          'px-3.5 py-1.5 rounded-lg text-[13px] font-semibold transition-all duration-150 active:scale-[0.97]',
+          'px-3.5 py-1.5 rounded-lg text-[16px] font-bold transition-all duration-150 active:scale-[0.97]',
           mobile && 'flex-1',
           activeTab === tab.id
             ? 'bg-white text-stone-900 shadow-sm'
@@ -558,9 +661,11 @@ export default function CaseStudy() {
                   </span>
                 </h1>
 
-                <p className="text-lg text-stone-600 leading-relaxed">
-                  A working dashboard concept for what creator analytics{' '}
-                  <Mark>should actually look like</Mark>. Sessions, retention, tool usage,
+                <p className="text-xl text-stone-800 leading-relaxed">
+                  <Mark>Dashboard for CustomGPT Analytics{' '}</Mark>
+                </p>
+                <p className="text-lg text-stone-700 leading-relaxed">
+                  Sessions, retention, tool usage,
                   models, and everything else OpenAI never shipped.
                 </p>
               </div>
@@ -600,7 +705,7 @@ export default function CaseStudy() {
 
           {/* ═══════════ HOW IT STARTED ═══════════ */}
           {activeTab === 'story' && (
-            <div className="max-w-2xl mx-auto space-y-20">
+            <div className="max-w-3xl mx-auto space-y-20">
 
               <FadeUp>
                 <div className="space-y-6 group">
@@ -608,8 +713,7 @@ export default function CaseStudy() {
                   <div className="space-y-5 text-[17px] text-stone-700 leading-[1.75]">
                     <p>
                       One evening, scrolling X, vintage 2010 Salman Khan tweets started flooding my
-                      timeline. Phonetic spelling, surreal one-liners, the kind of thing that is{' '}
-                      <Mark>genuinely legendary</Mark> in Indian internet culture.
+                      timeline. Phonetic spelling, surreal one-liners.
                     </p>
                     <p>
                       I collected about 50 of the most iconic ones and turned them into a custom GPT.
@@ -617,7 +721,7 @@ export default function CaseStudy() {
                       and uploaded it all to OpenAI's creator portal.
                     </p>
                     <p>
-                      I shipped it as <strong className="text-stone-900 font-bold">SalluTweets</strong>:
+                      I shipped it as <strong className="text-stone-900 font-bold"><Mark><a href={SALLUTWEETS_URL}>SalluTweets</a></Mark></strong>:
                       a GPT that replies the way Salman Khan tweeted in 2010. Raw, phonetic, completely
                       chaotic.
                     </p>
@@ -638,7 +742,7 @@ export default function CaseStudy() {
                   <div className="space-y-5 text-[17px] text-stone-700 leading-[1.75]">
                     <p>
                       It caught on fast.{' '}
-                      <Mark>Over 90 active users in the first 24 hours</Mark> after going public.
+                      <Mark>Over 80 active users in the first 24 hours</Mark> after going public.
                     </p>
                     <p>
                       So I opened the OpenAI creator panel to see how it was doing. The entire
@@ -653,6 +757,7 @@ export default function CaseStudy() {
                     <p className="text-stone-900 font-semibold">
                       So I designed what it should have looked like.
                     </p>
+
                   </div>
                   <Frame
                     label="OpenAI creator panel"
@@ -668,15 +773,17 @@ export default function CaseStudy() {
 
           {/* ═══════════ HOW IT WAS BUILT ═══════════ */}
           {activeTab === 'build' && (
-            <div className="max-w-4xl mx-auto space-y-20">
+            <div className="max-w-3xl mx-auto space-y-20">
+
+              {/* Process flow — top-down overview */}
+              <FadeUp>
+                <ProcessFlow chapters={CHAPTERS} />
+              </FadeUp>
 
               {/* Chapter 01 */}
-              <FadeUp>
-                <section className="space-y-6 group">
-                  <div className="flex items-center gap-4">
-                    <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white text-xs font-bold font-mono flex items-center justify-center transition-all duration-300 group-hover:bg-amber-600 group-hover:scale-110 group-hover:rotate-6">01</span>
-                    <span className="h-px flex-1 bg-stone-200 transition-colors duration-300 group-hover:bg-amber-200" />
-                  </div>
+              <FadeUp delay={40}>
+                <section id="chapter-01" className="space-y-6 group scroll-mt-24">
+
                   <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">
                     Choosing the Right Metrics
                   </h2>
@@ -700,15 +807,12 @@ export default function CaseStudy() {
 
               {/* Chapter 02 */}
               <FadeUp delay={60}>
-                <section className="space-y-6 group">
-                  <div className="flex items-center gap-4">
-                    <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white text-xs font-bold font-mono flex items-center justify-center transition-all duration-300 group-hover:bg-amber-600 group-hover:scale-110 group-hover:rotate-6">02</span>
-                    <span className="h-px flex-1 bg-stone-200 transition-colors duration-300 group-hover:bg-amber-200" />
-                  </div>
+                <section id="chapter-02" className="space-y-6 group scroll-mt-24">
+
                   <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">
                     The 6 Analytics Sections
                   </h2>
-                  <p className="text-[17px] text-stone-600 max-w-2xl leading-relaxed">
+                  <p className="text-[17px] text-stone-700 max-w-2xl leading-relaxed">
                     These are the exact sections in the live dashboard. Pick one, then tap through its
                     metrics to see what each tracks and why it earned a place.
                   </p>
@@ -781,13 +885,10 @@ export default function CaseStudy() {
 
               {/* Chapter 03 — features */}
               <FadeUp delay={120}>
-                <section className="space-y-6 group">
-                  <div className="flex items-center gap-4">
-                    <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white text-xs font-bold font-mono flex items-center justify-center transition-all duration-300 group-hover:bg-amber-600 group-hover:scale-110 group-hover:rotate-6">03</span>
-                    <span className="h-px flex-1 bg-stone-200 transition-colors duration-300 group-hover:bg-amber-200" />
-                  </div>
+                <section id="chapter-03" className="space-y-6 group scroll-mt-24">
+
                   <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">
-                    What It Can Do
+                    What the Dashboard Actually Does
                   </h2>
                   <p className="text-[17px] text-stone-700 leading-[1.75] max-w-2xl">
                     The dashboard is not a static mockup. Every control below actually works in the
@@ -807,7 +908,7 @@ export default function CaseStudy() {
                         </span>
                         <div className="min-w-0">
                           <p className="text-[15px] font-bold text-stone-900">{name}</p>
-                          <p className="text-[13px] text-stone-600 leading-relaxed mt-0.5">{desc}</p>
+                          <p className="text-[13px] text-stone-700 leading-relaxed mt-0.5">{desc}</p>
                         </div>
                       </div>
                     ))}
@@ -815,15 +916,50 @@ export default function CaseStudy() {
                 </section>
               </FadeUp>
 
-              {/* Chapter 04 — stack */}
+              {/* Chapter 04 — what didn't make the cut */}
               <FadeUp delay={160}>
-                <section className="space-y-6 group">
-                  <div className="flex items-center gap-4">
-                    <span className="shrink-0 w-10 h-10 rounded-full bg-stone-900 text-white text-xs font-bold font-mono flex items-center justify-center transition-all duration-300 group-hover:bg-amber-600 group-hover:scale-110 group-hover:rotate-6">04</span>
-                    <span className="h-px flex-1 bg-stone-200 transition-colors duration-300 group-hover:bg-amber-200" />
-                  </div>
+                <section id="chapter-04" className="space-y-6 group scroll-mt-24">
+
                   <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">
-                    The Stack
+                    What Didn't Make the Cut
+                  </h2>
+                  <p className="text-[17px] text-stone-700 leading-[1.75] max-w-2xl">
+                    These were some of the analytics I considered but did not include in the
+                    project. Tap one to see why.
+                  </p>
+                  <div className="space-y-2.5 max-w-3xl">
+                    {CUT_METRICS.map(item => (
+                      <AccordionItem key={item.title} title={item.title} body={item.body} />
+                    ))}
+                  </div>
+                </section>
+              </FadeUp>
+
+              {/* Chapter 05 — impact */}
+              <FadeUp delay={200}>
+                <section id="chapter-05" className="space-y-6 group scroll-mt-24">
+
+                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">
+                    What's the Impact This Can Bring
+                  </h2>
+                  <p className="text-[17px] text-stone-700 leading-[1.75] max-w-2xl">
+                    Three things a dashboard like this would actually change if it shipped inside
+                    OpenAI's product. Tap to expand.
+                  </p>
+                  <div className="space-y-2.5 max-w-3xl">
+                    {IMPACT_POINTS.map(item => (
+                      <AccordionItem key={item.title} title={item.title} body={item.body} />
+                    ))}
+                  </div>
+                </section>
+              </FadeUp>
+
+              {/* Chapter 06 — stack */}
+              <FadeUp delay={240}>
+                <section id="chapter-06" className="space-y-6 group scroll-mt-24">
+
+                  <h2 className="text-4xl sm:text-5xl font-extrabold text-stone-900 tracking-tight leading-tight transition-colors duration-200 group-hover:text-amber-700">
+                    The Tech Stack Behind It
                   </h2>
                   <p className="text-[17px] text-stone-700 leading-[1.75] max-w-2xl">
                     <Mark>Not a single line of code written by hand.</Mark> The whole frontend was
@@ -831,21 +967,21 @@ export default function CaseStudy() {
                     matter, how to show them, and iterating until it felt right. It is a front-end
                     MVP on mock data, not wired to any live OpenAI API.
                   </p>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
-                    {TECH.map(({ name, role, logo: Logo, icon: Icon, color }) => (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 pt-1">
+                    {TECH.map(({ name, why, logo: Logo, icon: Icon, color }) => (
                       <div
                         key={name}
-                        className="flex items-center gap-3 px-4 py-3.5 bg-white border border-stone-200 rounded-xl shadow-sm hover:border-amber-300 hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02] transition-all duration-200"
+                        className="flex items-start gap-3 px-4 py-3.5 bg-white border border-stone-200 rounded-xl shadow-sm hover:border-amber-300 hover:shadow-lg hover:-translate-y-1 hover:scale-[1.02] transition-all duration-200"
                       >
                         <span
-                          className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center"
+                          className="shrink-0 w-9 h-9 rounded-lg flex items-center justify-center mt-0.5"
                           style={{ backgroundColor: `${color}1A`, color }}
                         >
                           {Logo ? <Logo className="w-[18px] h-[18px]" /> : <Icon size={18} strokeWidth={2.2} />}
                         </span>
                         <div className="min-w-0">
-                          <p className="text-sm font-bold text-stone-900 truncate">{name}</p>
-                          <p className="text-[11px] text-stone-400">{role}</p>
+                          <p className="text-sm font-bold text-stone-900">{name}</p>
+                          <p className="text-[12.5px] text-stone-600 leading-snug mt-0.5">{why}</p>
                         </div>
                       </div>
                     ))}
@@ -870,7 +1006,7 @@ export default function CaseStudy() {
               rel="noopener noreferrer"
               className="font-bold text-stone-900 hover:text-amber-700 underline decoration-amber-300 decoration-2 underline-offset-2 transition-colors"
             >
-              Uday Mehtani (Claude Code)
+              Uday Mehtani
             </a>
           </p>
         </div>

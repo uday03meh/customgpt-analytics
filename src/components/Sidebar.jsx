@@ -4,8 +4,7 @@ import {
   Search, FolderOpen, BookOpen, Grid3X3,
   Code2, MoreHorizontal, ChevronRight,
   Plus, LayoutDashboard, PanelLeft, Pin,
-  ExternalLink, User, MessageSquare, ChevronDown,
-  Sparkles
+  ExternalLink, User, MessageSquare, ChevronDown
 } from 'lucide-react';
 import { myGPTs } from '../data/mockData';
 import clsx from 'clsx';
@@ -153,19 +152,6 @@ export default function Sidebar({ activeGPT, currentView, onOpenAnalytics, onNav
                 <span>Explore GPTs</span>
               </button>
             )}
-
-            {/* Behind the Build Case Study */}
-            <button
-              onClick={() => window.open('/', '_blank')}
-              className={clsx(
-                "w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-all font-semibold text-purple-400/90 hover:bg-[#212121] hover:text-purple-300",
-                collapsed && 'justify-center'
-              )}
-              title="Behind the Build Story ✨"
-            >
-              <Sparkles size={16} className="shrink-0 text-purple-400" />
-              {!collapsed && <span>Behind the Build</span>}
-            </button>
           </div>
         </div>
 

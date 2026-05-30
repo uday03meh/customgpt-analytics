@@ -161,7 +161,7 @@ export default function MyGPTs({ onAnalytics }) {
           </div>
           <button 
             onClick={() => window.open('/', '_blank')}
-            className="flex items-center gap-2 px-4 py-2.5 bg-[#8b5cf6] hover:bg-[#7c3aed] text-white text-xs font-bold rounded-lg transition-colors sm:mt-6 shrink-0 self-start active:scale-[0.97]"
+            className="flex items-center gap-2 px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white text-xs font-bold rounded-lg transition-colors sm:mt-6 shrink-0 self-start active:scale-[0.97]"
           >
             <Sparkles size={13} />
             Behind the Build Story

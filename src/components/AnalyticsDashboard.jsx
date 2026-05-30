@@ -20,12 +20,12 @@ import { analyticsData } from '../data/mockData';
 import clsx from 'clsx';
 
 const TABS = [
-  { id: 'Overview',   label: 'Overview'   },
-  { id: 'Models',     label: 'Models'     },
-  { id: 'Tools',      label: 'Tools'      },
-  { id: 'Knowledge',  label: 'Knowledge'  },
-  { id: 'Retention',  label: 'Retention'  },
-  { id: 'Safety',     label: 'Safety & Performance'  },
+  { id: 'Overview', label: 'Overview' },
+  { id: 'Models', label: 'Models' },
+  { id: 'Tools', label: 'Tools' },
+  { id: 'Knowledge', label: 'Knowledge' },
+  { id: 'Retention', label: 'Retention' },
+  { id: 'Safety', label: 'Safety & Performance' },
 ];
 
 // ─── SMART TOOLTIP HOOK ──────────────────────────────────────────────────────
@@ -118,7 +118,7 @@ function Card({ title, subtitle, action, children, className = '', info }) {
                 <h3 className="text-sm font-semibold text-[#ffffff] tracking-tight">{title}</h3>
                 {info && (
                   <div className="relative" ref={tooltip.ref}>
-                    <button 
+                    <button
                       onMouseEnter={tooltip.handleEnter}
                       onMouseLeave={tooltip.handleLeave}
                       className="text-[#525252] hover:text-[#e4e4e7] transition-colors shrink-0 flex items-center justify-center w-4 h-4 rounded-full hover:bg-[#262626]"
@@ -152,7 +152,7 @@ function KPI({ label, value, trend, icon: Icon, accent = '#19c37d', definition, 
           <span className="text-xs font-semibold text-[#a1a1aa] uppercase tracking-wider leading-tight">{label}</span>
           {definition && (
             <div className="relative" ref={tooltip.ref}>
-              <button 
+              <button
                 onMouseEnter={tooltip.handleEnter}
                 onMouseLeave={tooltip.handleLeave}
                 className="text-[#525252] hover:text-[#e4e4e7] transition-colors shrink-0 flex items-center justify-center w-4 h-4 rounded-full hover:bg-[#262626]"
@@ -193,7 +193,7 @@ function KPI({ label, value, trend, icon: Icon, accent = '#19c37d', definition, 
 function exportCSV(gpt, data) {
   const ts = new Date().toISOString();
   const headers = ["GPT ID", "GPT Name", "Category", "Metric", "Date/Dimension", "Value", "Unit", "Export Timestamp"];
-  
+
   const records = [
     [gpt.id, gpt.name, "KPI", "Total Chats", "All Time", data.kpis.totalChats, "Count", ts],
     [gpt.id, gpt.name, "KPI", "Unique Users", "All Time", data.kpis.uniqueUsers, "Count", ts],
@@ -295,7 +295,7 @@ function exportCSV(gpt, data) {
     records.push([gpt.id, gpt.name, "Safety & Performance", "Sensitive Topics Rate", "All Time", s.sensitiveTopicRate, "%", ts]);
     records.push([gpt.id, gpt.name, "Safety & Performance", "Hallucination Suspicion", "All Time", s.hallucinationSuspicion, "%", ts]);
     records.push([gpt.id, gpt.name, "Safety & Performance", "Unable to Help Rate", "All Time", s.unableToHelpRate, "%", ts]);
-    
+
     if (s.refusalsByDay) {
       s.refusalsByDay.forEach(r => {
         records.push([gpt.id, gpt.name, "Safety Refusals Timeline", "Refusals Count", r.date, r.refusals, "Count", ts]);
@@ -345,7 +345,7 @@ const METRIC_DEFINITIONS = {
 const getKpisForPeriod = (baseKpis, period) => {
   let multiplier = 1.0;
   let trendMult = 1.0;
-  
+
   if (period === '1d') {
     multiplier = 0.033;
     trendMult = 0.2;
@@ -369,7 +369,7 @@ const getKpisForPeriod = (baseKpis, period) => {
   const totalChats = Math.round(baseKpis.totalChats * multiplier);
   const uniqueUsers = Math.round(baseKpis.uniqueUsers * multiplier);
   const avgTokensPerSession = Math.round(baseKpis.avgTokensPerSession * (1 + (multiplier - 1) * 0.02));
-  
+
   let bounceRate = baseKpis.bounceRate;
   let activationRate = baseKpis.activationRate;
   let returningUsers = baseKpis.returningUsers;
@@ -499,7 +499,7 @@ function DatePicker({ selectedPeriod, onChange }) {
 
   return (
     <div className="relative">
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1.5 px-3 py-1.5 bg-[#141414] border border-[#262626] hover:border-[#383838] rounded-lg text-xs text-[#ffffff] font-medium transition-colors"
       >
@@ -521,8 +521,8 @@ function DatePicker({ selectedPeriod, onChange }) {
                 }}
                 className={clsx(
                   "w-full text-left px-3 py-1.5 text-xs transition-colors",
-                  selectedPeriod === opt.value 
-                    ? "bg-[#19c37d]/10 text-[#19c37d] font-semibold" 
+                  selectedPeriod === opt.value
+                    ? "bg-[#19c37d]/10 text-[#19c37d] font-semibold"
                     : "text-[#d4d4d8] hover:bg-[#262626] hover:text-[#ffffff]"
                 )}
               >
@@ -553,7 +553,7 @@ function ActivityCalendar({ gpt }) {
     const tooltip = useSmartTooltip();
     return (
       <div className="relative" ref={tooltip.ref}>
-        <button 
+        <button
           onMouseEnter={tooltip.handleEnter}
           onMouseLeave={tooltip.handleLeave}
           className="text-[#555] hover:text-[#ececec] transition-colors shrink-0 flex items-center justify-center w-4 h-4 rounded-full hover:bg-[#222]"
@@ -607,7 +607,7 @@ function ActivityCalendar({ gpt }) {
     if (seed > 15) {
       sessions = Math.round(seed * 4.5 + 20);
     }
-    
+
     let colorClass = 'bg-[#1b1b1f] hover:bg-[#2d2d30]';
     let level = 0;
     if (sessions > 0 && sessions <= 100) {
@@ -646,15 +646,15 @@ function ActivityCalendar({ gpt }) {
         </div>
 
         <div className="flex items-center gap-2">
-          <button 
+          <button
             onClick={handlePrevMonth}
             className="w-7 h-7 flex items-center justify-center bg-[#1c1c1e] border border-[#2d2d30] hover:border-[#3a3a3c] hover:text-[#ffffff] rounded text-[#8e8ea0] transition-colors"
           >
             &lt;
           </button>
 
-          <select 
-            value={selectedMonth} 
+          <select
+            value={selectedMonth}
             onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
             className="bg-[#1c1c1e] border border-[#2d2d30] rounded px-2.5 py-1 text-xs text-[#ffffff] font-medium outline-none cursor-pointer focus:border-[#3a3a3c]"
           >
@@ -663,8 +663,8 @@ function ActivityCalendar({ gpt }) {
             ))}
           </select>
 
-          <select 
-            value={selectedYear} 
+          <select
+            value={selectedYear}
             onChange={(e) => setSelectedYear(parseInt(e.target.value))}
             className="bg-[#1c1c1e] border border-[#2d2d30] rounded px-2.5 py-1 text-xs text-[#ffffff] font-medium outline-none cursor-pointer focus:border-[#3a3a3c]"
           >
@@ -673,7 +673,7 @@ function ActivityCalendar({ gpt }) {
             ))}
           </select>
 
-          <button 
+          <button
             onClick={handleNextMonth}
             className="w-7 h-7 flex items-center justify-center bg-[#1c1c1e] border border-[#2d2d30] hover:border-[#3a3a3c] hover:text-[#ffffff] rounded text-[#8e8ea0] transition-colors"
           >
@@ -766,8 +766,8 @@ function TimeOfDayChart({ heatmapData }) {
   const chartData = getTimeOfDayData(heatmapData);
 
   return (
-    <Card 
-      title="Time-of-Day Activity" 
+    <Card
+      title="Time-of-Day Activity"
       subtitle="Peak usage hours"
       info="Shows when users are most active throughout the day."
     >
@@ -775,23 +775,23 @@ function TimeOfDayChart({ heatmapData }) {
         <AreaChart data={chartData} margin={{ top: 5, right: 5, left: -18, bottom: 0 }}>
           <defs>
             <linearGradient id="gtod" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%"  stopColor="#8b5cf6" stopOpacity={0.2} />
-              <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0}    />
+              <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.2} />
+              <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
             </linearGradient>
           </defs>
           <CartesianGrid strokeDasharray="3 3" stroke="#151515" vertical={false} />
           <XAxis dataKey="time" tick={{ fontSize: 11, fill: '#8e8ea0' }} axisLine={false} tickLine={false} />
           <YAxis tick={{ fontSize: 11, fill: '#8e8ea0' }} axisLine={false} tickLine={false} />
           <Tooltip content={<CT />} />
-          <Area 
-            type="monotone" 
-            dataKey="sessions" 
-            name="Sessions" 
-            stroke="#8b5cf6" 
-            strokeWidth={2.5} 
-            fill="url(#gtod)" 
-            dot={true} 
-            activeDot={{ r: 5, fill: '#8b5cf6' }} 
+          <Area
+            type="monotone"
+            dataKey="sessions"
+            name="Sessions"
+            stroke="#8b5cf6"
+            strokeWidth={2.5}
+            fill="url(#gtod)"
+            dot={true}
+            activeDot={{ r: 5, fill: '#8b5cf6' }}
           />
         </AreaChart>
       </ResponsiveContainer>
@@ -859,7 +859,7 @@ function OverviewTab({ data, selectedPeriod }) {
               <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#19c37d]" />Chats</span>
               <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-[#6366f1]" />Users</span>
             </div>
-            
+
             <select
               value={graphView}
               onChange={(e) => {
@@ -901,12 +901,12 @@ function OverviewTab({ data, selectedPeriod }) {
           <AreaChart data={dynamicDailyChats} margin={{ top: 5, right: 5, left: -18, bottom: 0 }}>
             <defs>
               <linearGradient id="gc" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%"  stopColor="#19c37d" stopOpacity={0.15} />
-                <stop offset="95%" stopColor="#19c37d" stopOpacity={0}    />
+                <stop offset="5%" stopColor="#19c37d" stopOpacity={0.15} />
+                <stop offset="95%" stopColor="#19c37d" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="gu" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%"  stopColor="#6366f1" stopOpacity={0.12} />
-                <stop offset="95%" stopColor="#6366f1" stopOpacity={0}    />
+                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.12} />
+                <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#1c1c1f" vertical={false} />
@@ -921,8 +921,8 @@ function OverviewTab({ data, selectedPeriod }) {
 
       {/* Growth % + token stats side-by-side */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Card 
-          title="Growth %" 
+        <Card
+          title="Growth %"
           info="Volume change percentage over the selected period, split into equal segments."
           subtitle={`${growthView.charAt(0).toUpperCase() + growthView.slice(1)} trend`}
           action={
@@ -936,13 +936,13 @@ function OverviewTab({ data, selectedPeriod }) {
                 <option value="weekly">Weekly</option>
                 <option value="monthly">Monthly</option>
               </select>
-              <CustomCalendarPicker 
-                selectedPeriod={growthPeriod} 
-                onChange={setGrowthPeriod} 
-                startDate={growthStartDate} 
-                endDate={growthEndDate} 
-                setStartDate={setGrowthStartDate} 
-                setEndDate={setGrowthEndDate} 
+              <CustomCalendarPicker
+                selectedPeriod={growthPeriod}
+                onChange={setGrowthPeriod}
+                startDate={growthStartDate}
+                endDate={growthEndDate}
+                setStartDate={setGrowthStartDate}
+                setEndDate={setGrowthEndDate}
               />
             </div>
           }
@@ -961,10 +961,10 @@ function OverviewTab({ data, selectedPeriod }) {
         <Card title="Token & Prompt Stats" info="Average input/output tokens, prompt length, and conversation frequency per user." subtitle="Per-session averages">
           <div className="grid grid-cols-2 gap-3.5">
             {[
-              { label: 'Avg Prompt Length', value: `${data.tokenStats.avgPromptLength} words`,  accent: '#19c37d' },
-              { label: 'Avg Input Tokens',  value: data.tokenStats.avgInputTokens,               accent: '#6366f1' },
-              { label: 'Avg Output Tokens', value: data.tokenStats.avgOutputTokens,              accent: '#f59e0b' },
-              { label: 'Convos / User',     value: `${data.tokenStats.avgConvosPerUser}x`,       accent: '#8b5cf6' },
+              { label: 'Avg Prompt Length', value: `${data.tokenStats.avgPromptLength} words`, accent: '#19c37d' },
+              { label: 'Avg Input Tokens', value: data.tokenStats.avgInputTokens, accent: '#6366f1' },
+              { label: 'Avg Output Tokens', value: data.tokenStats.avgOutputTokens, accent: '#f59e0b' },
+              { label: 'Convos / User', value: `${data.tokenStats.avgConvosPerUser}x`, accent: '#8b5cf6' },
             ].map(({ label, value, accent }) => (
               <div key={label} className="bg-[#141414] border border-[#262626] rounded-xl p-3.5 hover:border-[#383838] transition-colors">
                 <p className="text-[10px] text-[#a1a1aa] uppercase tracking-wider font-semibold mb-1.5">{label}</p>
@@ -982,8 +982,8 @@ function OverviewTab({ data, selectedPeriod }) {
             <AreaChart data={data.dropOffCurve} margin={{ top: 5, right: 5, left: -18, bottom: 0 }}>
               <defs>
                 <linearGradient id="gdrop" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%"  stopColor="#ef4444" stopOpacity={0.15} />
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0}    />
+                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.15} />
+                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#1c1c1f" vertical={false} />
@@ -1003,10 +1003,10 @@ function OverviewTab({ data, selectedPeriod }) {
         <Card title="Conversation Quality" info="Key quality signals including exchange depth, regeneration triggers, and session duration." subtitle="Quality metrics">
           <div className="grid grid-cols-2 gap-3.5">
             {[
-              { label: 'Avg Conv. Depth',   value: `${data.conversationQuality.avgDepth} msgs`, accent: '#19c37d',  icon: MessageSquare },
-              { label: 'Regen Rate',         value: `${data.conversationQuality.regenerationRate}%`,       accent: '#f59e0b',  icon: RotateCcw     },
-              { label: 'Drop-off After 1st', value: `${data.conversationQuality.dropOffAfterFirst}%`,      accent: '#ef4444',  icon: AlertCircle   },
-              { label: 'Long Sessions >5m',  value: `${data.conversationQuality.longSessionPct}%`,         accent: '#8b5cf6',  icon: Clock         },
+              { label: 'Avg Conv. Depth', value: `${data.conversationQuality.avgDepth} msgs`, accent: '#19c37d', icon: MessageSquare },
+              { label: 'Regen Rate', value: `${data.conversationQuality.regenerationRate}%`, accent: '#f59e0b', icon: RotateCcw },
+              { label: 'Drop-off After 1st', value: `${data.conversationQuality.dropOffAfterFirst}%`, accent: '#ef4444', icon: AlertCircle },
+              { label: 'Long Sessions >5m', value: `${data.conversationQuality.longSessionPct}%`, accent: '#8b5cf6', icon: Clock },
             ].map(({ label, value, accent, icon: Icon }) => (
               <div key={label} className="bg-[#141414] border border-[#262626] rounded-xl p-3.5 hover:border-[#383838] transition-colors">
                 <div className="flex items-center gap-1.5 mb-1.5">
@@ -1127,12 +1127,12 @@ function ModelsTab({ data }) {
 
 // ─── TOOLS TAB ───────────────────────────────────────────────────────────────
 const TOOL_ICONS = {
-  'Web Search':       Search,
-  'Canvas':           PenLine,
+  'Web Search': Search,
+  'Canvas': PenLine,
   'Image Generation': ImageIcon,
   'Code Interpreter': Code,
-  'Voice Mode':       Volume2,
-  'File Upload':      Upload,
+  'Voice Mode': Volume2,
+  'File Upload': Upload,
 };
 
 function ToolsTab({ data }) {
@@ -1173,9 +1173,9 @@ function ToolsTab({ data }) {
                     <div className="grid grid-cols-4 gap-2">
                       {[
                         { label: 'Avg session after', value: tool.avgSessionAfter },
-                        { label: 'Retention after',   value: `${tool.retentionAfter}%`, good: true },
-                        { label: 'Drop-off after',    value: `${tool.dropOffAfter}%`,  bad: true  },
-                        { label: 'Avg latency',       value: tool.avgLatency },
+                        { label: 'Retention after', value: `${tool.retentionAfter}%`, good: true },
+                        { label: 'Drop-off after', value: `${tool.dropOffAfter}%`, bad: true },
+                        { label: 'Avg latency', value: tool.avgLatency },
                       ].map(({ label, value, good, bad }) => (
                         <div key={label} className="text-center">
                           <p className={clsx('text-xs font-bold', good ? 'text-[#19c37d]' : bad ? 'text-red-400' : 'text-[#e4e4e7]')}>{value}</p>
@@ -1200,9 +1200,9 @@ function ToolsTab({ data }) {
           <div className="flex items-center gap-3 text-[11px]">
             {[
               { label: 'Web Search', color: '#19c37d' },
-              { label: 'Canvas',     color: '#6366f1' },
-              { label: 'Image',      color: '#f59e0b' },
-              { label: 'Code',       color: '#ec4899' },
+              { label: 'Canvas', color: '#6366f1' },
+              { label: 'Image', color: '#f59e0b' },
+              { label: 'Code', color: '#ec4899' },
             ].map(({ label, color }) => (
               <span key={label} className="flex items-center gap-1.5 text-[#a1a1aa] font-semibold">
                 <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
@@ -1217,13 +1217,13 @@ function ToolsTab({ data }) {
             <defs>
               {[
                 { id: 'tws', color: '#19c37d' },
-                { id: 'tc',  color: '#6366f1' },
-                { id: 'ti',  color: '#f59e0b' },
+                { id: 'tc', color: '#6366f1' },
+                { id: 'ti', color: '#f59e0b' },
                 { id: 'tco', color: '#ec4899' },
               ].map(({ id, color }) => (
                 <linearGradient key={id} id={id} x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%"  stopColor={color} stopOpacity={0.15} />
-                  <stop offset="95%" stopColor={color} stopOpacity={0}    />
+                  <stop offset="5%" stopColor={color} stopOpacity={0.15} />
+                  <stop offset="95%" stopColor={color} stopOpacity={0} />
                 </linearGradient>
               ))}
             </defs>
@@ -1232,9 +1232,9 @@ function ToolsTab({ data }) {
             <YAxis tick={{ fontSize: 11, fill: '#a1a1aa' }} axisLine={false} tickLine={false} />
             <Tooltip content={<CT />} />
             <Area type="monotone" dataKey="webSearch" name="Web Search" stroke="#19c37d" strokeWidth={1.5} fill="url(#tws)" dot={false} />
-            <Area type="monotone" dataKey="canvas"    name="Canvas"     stroke="#6366f1" strokeWidth={1.5} fill="url(#tc)"  dot={false} />
-            <Area type="monotone" dataKey="image"     name="Image"      stroke="#f59e0b" strokeWidth={1.5} fill="url(#ti)"  dot={false} />
-            <Area type="monotone" dataKey="code"      name="Code"       stroke="#ec4899" strokeWidth={1.5} fill="url(#tco)" dot={false} />
+            <Area type="monotone" dataKey="canvas" name="Canvas" stroke="#6366f1" strokeWidth={1.5} fill="url(#tc)" dot={false} />
+            <Area type="monotone" dataKey="image" name="Image" stroke="#f59e0b" strokeWidth={1.5} fill="url(#ti)" dot={false} />
+            <Area type="monotone" dataKey="code" name="Code" stroke="#ec4899" strokeWidth={1.5} fill="url(#tco)" dot={false} />
           </AreaChart>
         </ResponsiveContainer>
       </Card>
@@ -1287,10 +1287,10 @@ function KnowledgeTab({ data }) {
               {/* Stats grid */}
               <div className="grid grid-cols-4 gap-2 text-center">
                 {[
-                  { label: 'Contribution', value: `${file.contributionPct}%`,  color: '#19c37d' },
-                  { label: 'Sessions cont.', value: `${file.sessionsAfter}%`,  color: '#6366f1' },
-                  { label: 'Sessions abnd.', value: `${file.abandoned}%`,      color: '#ef4444' },
-                  { label: 'Avg latency',  value: file.avgLatency,             color: '#f59e0b' },
+                  { label: 'Contribution', value: `${file.contributionPct}%`, color: '#19c37d' },
+                  { label: 'Sessions cont.', value: `${file.sessionsAfter}%`, color: '#6366f1' },
+                  { label: 'Sessions abnd.', value: `${file.abandoned}%`, color: '#ef4444' },
+                  { label: 'Avg latency', value: file.avgLatency, color: '#f59e0b' },
                 ].map(({ label, value, color }) => (
                   <div key={label} className="bg-[#141414] border border-[#262626] rounded-xl py-2 shadow-sm">
                     <p className="text-xs font-bold" style={{ color }}>{value}</p>
@@ -1304,9 +1304,9 @@ function KnowledgeTab({ data }) {
       </Card>
 
       {/* Knowledge usage over time */}
-      <Card 
-        title="Retrieval Volume Over Time" 
-        info="Volume of knowledge base retrievals from conversation prompts." 
+      <Card
+        title="Retrieval Volume Over Time"
+        info="Volume of knowledge base retrievals from conversation prompts."
         subtitle="Retrieval volume"
         action={
           <select
@@ -1321,14 +1321,14 @@ function KnowledgeTab({ data }) {
         }
       >
         <ResponsiveContainer width="100%" height={180}>
-          <BarChart 
+          <BarChart
             data={
-              retrievalView === '7d' 
+              retrievalView === '7d'
                 ? data.dailyChats.slice(-7).map(d => ({ ...d, retrievals: Math.floor(d.chats * 0.46) }))
                 : retrievalView === 'all'
-                ? [{ date: 'Dec', retrievals: 1930 }, { date: 'Jan', retrievals: 2668 }, { date: 'Feb', retrievals: 3312 }, { date: 'Mar', retrievals: 4094 }, { date: 'Apr', retrievals: 5152 }, { date: 'May', retrievals: 6762 }]
-                : data.dailyChats.map(d => ({ ...d, retrievals: Math.floor(d.chats * 0.46) }))
-            } 
+                  ? [{ date: 'Dec', retrievals: 1930 }, { date: 'Jan', retrievals: 2668 }, { date: 'Feb', retrievals: 3312 }, { date: 'Mar', retrievals: 4094 }, { date: 'Apr', retrievals: 5152 }, { date: 'May', retrievals: 6762 }]
+                  : data.dailyChats.map(d => ({ ...d, retrievals: Math.floor(d.chats * 0.46) }))
+            }
             margin={{ top: 5, right: 5, left: -18, bottom: 0 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#1c1c1f" vertical={false} />
@@ -1393,10 +1393,10 @@ function RetentionTab({ data }) {
               </div>
               <div className="grid grid-cols-4 gap-2 text-center">
                 {[
-                  { label: 'Sessions',   value: sp.sessions.toLocaleString(), color: '#ececec' },
-                  { label: 'CTR',        value: `${sp.ctr}%`,    color: '#19c37d'  },
-                  { label: 'Avg depth',  value: `${sp.avgDepth}`, color: '#6366f1' },
-                  { label: 'Drop-off',   value: `${sp.dropOff}%`, color: sp.dropOff >= 30 ? '#ef4444' : '#8e8ea0' },
+                  { label: 'Sessions', value: sp.sessions.toLocaleString(), color: '#ececec' },
+                  { label: 'CTR', value: `${sp.ctr}%`, color: '#19c37d' },
+                  { label: 'Avg depth', value: `${sp.avgDepth}`, color: '#6366f1' },
+                  { label: 'Drop-off', value: `${sp.dropOff}%`, color: sp.dropOff >= 30 ? '#ef4444' : '#8e8ea0' },
                 ].map(({ label, value, color }) => (
                   <div key={label}>
                     <p className="text-xs font-bold" style={{ color }}>{value}</p>
@@ -1449,9 +1449,9 @@ function RetentionTab({ data }) {
       </Card>
 
       {/* Returning users by week */}
-      <Card 
-        title={returnView === 'weekly' ? "Returning Users — Weekly" : "Returning Users — Monthly"} 
-        info="Trend of users who returned within 7 days of their first session." 
+      <Card
+        title={returnView === 'weekly' ? "Returning Users — Weekly" : "Returning Users — Monthly"}
+        info="Trend of users who returned within 7 days of their first session."
         subtitle={returnView === 'weekly' ? "Weekly return rate" : "Monthly return rate"}
         action={
           <select
@@ -1465,18 +1465,18 @@ function RetentionTab({ data }) {
         }
       >
         <ResponsiveContainer width="100%" height={180}>
-          <LineChart 
-            data={returnView === 'weekly' 
-              ? data.returningByWeek 
+          <LineChart
+            data={returnView === 'weekly'
+              ? data.returningByWeek
               : [
-                  { week: 'Dec', returning: 24 },
-                  { week: 'Jan', returning: 28 },
-                  { week: 'Feb', returning: 31 },
-                  { week: 'Mar', returning: 35 },
-                  { week: 'Apr', returning: 38 },
-                  { week: 'May', returning: 42 },
-                ]
-            } 
+                { week: 'Dec', returning: 24 },
+                { week: 'Jan', returning: 28 },
+                { week: 'Feb', returning: 31 },
+                { week: 'Mar', returning: 35 },
+                { week: 'Apr', returning: 38 },
+                { week: 'May', returning: 42 },
+              ]
+            }
             margin={{ top: 5, right: 5, left: -18, bottom: 0 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="#1c1c1f" vertical={false} />
@@ -1507,32 +1507,32 @@ function SafetyTab({ data }) {
 
       {/* Safety KPIs */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-        <KPI 
-          label="Refusal Rate" 
-          value={`${s.refusalRate}%`} 
-          icon={Shield} 
-          accent="#ef4444" 
+        <KPI
+          label="Refusal Rate"
+          value={`${s.refusalRate}%`}
+          icon={Shield}
+          accent="#ef4444"
           definition="The percentage of user queries that triggered a safety policy block or refusal response from the model."
         />
-        <KPI 
-          label="Sensitive Topics" 
-          value={`${s.sensitiveTopicRate}%`} 
-          icon={AlertCircle} 
-          accent="#f59e0b" 
+        <KPI
+          label="Sensitive Topics"
+          value={`${s.sensitiveTopicRate}%`}
+          icon={AlertCircle}
+          accent="#f59e0b"
           definition="Percentage of queries containing keywords matching monitored policy topics (e.g., explicit materials, violence)."
         />
-        <KPI 
-          label="Hallucination Suspicion" 
-          value={`${s.hallucinationSuspicion}%`} 
-          icon={Eye} 
-          accent="#8b5cf6" 
+        <KPI
+          label="Hallucination Suspicion"
+          value={`${s.hallucinationSuspicion}%`}
+          icon={Eye}
+          accent="#8b5cf6"
           definition="Heuristically detected occurrences of potential source mismatch or logically inconsistent statements."
         />
-        <KPI 
-          label="Unable to Help" 
-          value={`${s.unableToHelpRate}%`} 
-          icon={TrendingDown} 
-          accent="#6366f1" 
+        <KPI
+          label="Unable to Help"
+          value={`${s.unableToHelpRate}%`}
+          icon={TrendingDown}
+          accent="#6366f1"
           definition="The rate at which the model responds that it cannot perform the requested action or fetch the information."
         />
       </div>
@@ -1553,19 +1553,19 @@ function SafetyTab({ data }) {
           <AreaChart data={s.refusalsByDay} margin={{ top: 5, right: 5, left: -18, bottom: 0 }}>
             <defs>
               <linearGradient id="gr" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%"  stopColor="#ef4444" stopOpacity={0.2} />
-                <stop offset="95%" stopColor="#ef4444" stopOpacity={0}   />
+                <stop offset="5%" stopColor="#ef4444" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#ef4444" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="gs" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%"  stopColor="#f59e0b" stopOpacity={0.15} />
-                <stop offset="95%" stopColor="#f59e0b" stopOpacity={0}    />
+                <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.15} />
+                <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="#151515" vertical={false} />
             <XAxis dataKey="date" tick={{ fontSize: 11, fill: '#a1a1aa' }} axisLine={false} tickLine={false} />
             <YAxis tick={{ fontSize: 11, fill: '#a1a1aa' }} axisLine={false} tickLine={false} />
             <Tooltip content={<CT />} />
-            <Area type="monotone" dataKey="refusals"  name="Refusals"         stroke="#ef4444" strokeWidth={2} fill="url(#gr)" dot={false} />
+            <Area type="monotone" dataKey="refusals" name="Refusals" stroke="#ef4444" strokeWidth={2} fill="url(#gr)" dot={false} />
             <Area type="monotone" dataKey="sensitive" name="Sensitive topics" stroke="#f59e0b" strokeWidth={2} fill="url(#gs)" dot={false} />
           </AreaChart>
         </ResponsiveContainer>
@@ -1592,10 +1592,10 @@ function SafetyTab({ data }) {
         <Card title="Latency & Performance" info="Response time, tool delays, and retrieval latency metrics." subtitle="System response times">
           <div className="space-y-3.5">
             {[
-              { label: 'Avg Response Time',    value: `${s.latency.avgResponseTime}s`,    accent: '#19c37d' },
-              { label: 'Avg Tool Delay',        value: `${s.latency.avgToolDelay}s`,        accent: '#f59e0b' },
+              { label: 'Avg Response Time', value: `${s.latency.avgResponseTime}s`, accent: '#19c37d' },
+              { label: 'Avg Tool Delay', value: `${s.latency.avgToolDelay}s`, accent: '#f59e0b' },
               { label: 'Avg Retrieval Latency', value: `${s.latency.avgRetrievalLatency}s`, accent: '#6366f1' },
-              { label: 'P95 Response Time',     value: `${s.latency.p95ResponseTime}s`,     accent: '#ef4444' },
+              { label: 'P95 Response Time', value: `${s.latency.p95ResponseTime}s`, accent: '#ef4444' },
             ].map(({ label, value, accent }) => (
               <div key={label} className="flex items-center justify-between py-1.5 border-b border-[#1f1f1f]">
                 <span className="text-xs text-[#a1a1aa] font-semibold">{label}</span>
@@ -1664,11 +1664,11 @@ function CustomCalendarPicker({ selectedPeriod, onChange, startDate, endDate, se
   };
 
   const presets = [
-    { label: '1 Day',    val: '1d' },
-    { label: '7 Days',   val: '7d' },
-    { label: '30 Days',  val: '30d' },
-    { label: '7 Weeks',  val: '7w' },
-    { label: '1 Month',  val: '1m' },
+    { label: '1 Day', val: '1d' },
+    { label: '7 Days', val: '7d' },
+    { label: '30 Days', val: '30d' },
+    { label: '7 Weeks', val: '7w' },
+    { label: '1 Month', val: '1m' },
     { label: 'All Time', val: 'all' },
   ];
 
@@ -1683,7 +1683,7 @@ function CustomCalendarPicker({ selectedPeriod, onChange, startDate, endDate, se
     else if (preset === '7w') start.setDate(end.getDate() - 49);
     else if (preset === '1m') start.setMonth(end.getMonth() - 1);
     else if (preset === 'all') start = new Date(2025, 11, 1);
-    
+
     setStartDate(start);
     setEndDate(end);
   };
@@ -1704,8 +1704,8 @@ function CustomCalendarPicker({ selectedPeriod, onChange, startDate, endDate, se
 
   const isSelected = (date) => {
     if (!date) return false;
-    return (startDate && startDate.toDateString() === date.toDateString()) || 
-           (endDate && endDate.toDateString() === date.toDateString());
+    return (startDate && startDate.toDateString() === date.toDateString()) ||
+      (endDate && endDate.toDateString() === date.toDateString());
   };
 
   const isInRange = (date) => {
@@ -1719,19 +1719,19 @@ function CustomCalendarPicker({ selectedPeriod, onChange, startDate, endDate, se
     return false;
   };
 
-  const buttonText = selectedPeriod === 'custom' && startDate && endDate 
+  const buttonText = selectedPeriod === 'custom' && startDate && endDate
     ? `${formatDate(startDate)} - ${formatDate(endDate)}`
     : selectedPeriod === '1d' ? '1 Day'
-    : selectedPeriod === '7d' ? '7 Days'
-    : selectedPeriod === '30d' ? '30 Days'
-    : selectedPeriod === '7w' ? '7 Weeks'
-    : selectedPeriod === '1m' ? '1 Month'
-    : selectedPeriod === 'all' ? 'All Time'
-    : 'Select dates';
+      : selectedPeriod === '7d' ? '7 Days'
+        : selectedPeriod === '30d' ? '30 Days'
+          : selectedPeriod === '7w' ? '7 Weeks'
+            : selectedPeriod === '1m' ? '1 Month'
+              : selectedPeriod === 'all' ? 'All Time'
+                : 'Select dates';
 
   return (
     <div className="relative">
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-1.5 px-3 py-1.5 bg-[#141414] border border-[#262626] hover:border-[#19c37d]/40 rounded-lg text-xs text-[#ffffff] font-medium transition-all shadow-sm active:scale-[0.98]"
       >
@@ -1766,7 +1766,7 @@ function CustomCalendarPicker({ selectedPeriod, onChange, startDate, endDate, se
             {/* Interactive Month Grid */}
             <div className="flex-1 flex flex-col">
               <div className="flex items-center justify-between mb-3">
-                <button 
+                <button
                   onClick={handlePrevMonth}
                   className="p-1 hover:bg-[#262626] text-[#a1a1aa] hover:text-white rounded transition-colors text-xs font-bold"
                 >
@@ -1775,7 +1775,7 @@ function CustomCalendarPicker({ selectedPeriod, onChange, startDate, endDate, se
                 <span className="text-xs font-bold text-white uppercase tracking-wider">
                   {new Date(currentYear, currentMonth).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </span>
-                <button 
+                <button
                   onClick={handleNextMonth}
                   className="p-1 hover:bg-[#262626] text-[#a1a1aa] hover:text-white rounded transition-colors text-xs font-bold"
                 >
@@ -1809,8 +1809,8 @@ function CustomCalendarPicker({ selectedPeriod, onChange, startDate, endDate, se
                         selected
                           ? "bg-[#19c37d] text-[#000] font-extrabold shadow-md scale-105"
                           : range
-                          ? "bg-[#19c37d]/15 text-[#19c37d] hover:bg-[#19c37d]/25"
-                          : "text-[#d4d4d8] hover:bg-[#262626]"
+                            ? "bg-[#19c37d]/15 text-[#19c37d] hover:bg-[#19c37d]/25"
+                            : "text-[#d4d4d8] hover:bg-[#262626]"
                       )}
                     >
                       {cell.day}
@@ -1856,7 +1856,7 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
   const [endDate, setEndDate] = useState(new Date(2026, 4, 24)); // May 24, 2026
   const [showAiInsights, setShowAiInsights] = useState(false);
   const [aiInsightsLoading, setAiInsightsLoading] = useState(false);
-  
+
   const data = analyticsData[gpt?.id] || analyticsData['sallu-tweets'];
   if (!data) return null;
 
@@ -1890,9 +1890,9 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
             </div>
             <div>
               <div className="flex items-center gap-3 flex-wrap">
-                <a 
-                  href={`https://chatgpt.com/g/${gpt.id}`} 
-                  target="_blank" 
+                <a
+                  href={`https://chatgpt.com/g/${gpt.id}`}
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-2xl font-extrabold text-white hover:text-[#19c37d] transition-all flex items-center gap-2 group cursor-pointer tracking-tight"
                 >
@@ -1930,15 +1930,15 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
             </div>
           </div>
 
-           <div className="flex flex-col items-end shrink-0 gap-2">
+          <div className="flex flex-col items-end shrink-0 gap-2">
             <div className="flex items-center gap-1.5 flex-wrap sm:flex-nowrap">
-              <CustomCalendarPicker 
-                selectedPeriod={selectedPeriod} 
-                onChange={setSelectedPeriod} 
-                startDate={startDate} 
-                endDate={endDate} 
-                setStartDate={setStartDate} 
-                setEndDate={setEndDate} 
+              <CustomCalendarPicker
+                selectedPeriod={selectedPeriod}
+                onChange={setSelectedPeriod}
+                startDate={startDate}
+                endDate={endDate}
+                setStartDate={setStartDate}
+                setEndDate={setEndDate}
               />
               <button
                 onClick={() => exportCSV(gpt, { ...data, kpis: activeKpis })}
@@ -1984,7 +1984,7 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
                 )}
               </button>
             </div>
-            
+
             {/* Anonymous Prompt Sharing Toggle Switch with Hover Help popover */}
             <div className="flex items-center gap-2 bg-[#141414] border border-[#262626] rounded-lg px-2.5 py-1 shadow-sm select-none relative">
               <span className="text-[10px] text-[#a1a1aa] font-bold uppercase tracking-wider">Share prompts by default</span>
@@ -2037,8 +2037,8 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
                   <span className="text-[10px] text-[#19c37d] font-bold uppercase tracking-wider">Growth</span>
                 </div>
                 <p className="text-[11px] text-[#d4d4d8] leading-relaxed">
-                  <b className="text-white">{activeKpis.totalChats.toLocaleString()} total chats</b> with <b className="text-white">{activeKpis.uniqueUsers.toLocaleString()} unique users</b>. 
-                  {activeKpis.totalChatsTrend > 0 
+                  <b className="text-white">{activeKpis.totalChats.toLocaleString()} total chats</b> with <b className="text-white">{activeKpis.uniqueUsers.toLocaleString()} unique users</b>.
+                  {activeKpis.totalChatsTrend > 0
                     ? `Growth is trending positively at +${activeKpis.totalChatsTrend}%. Focus on maintaining this momentum.`
                     : `Growth has slowed to ${activeKpis.totalChatsTrend}%. Consider refreshing conversation starters or promoting your GPT.`
                   }
@@ -2050,8 +2050,8 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
                   <span className="text-[10px] text-[#8b5cf6] font-bold uppercase tracking-wider">Engagement</span>
                 </div>
                 <p className="text-[11px] text-[#d4d4d8] leading-relaxed">
-                  Average session length is <b className="text-white">{activeKpis.avgSessionLength}</b> with <b className="text-white">{activeKpis.avgMessagesPerConvo} msgs/convo</b>. 
-                  {activeKpis.bounceRate > 25 
+                  Average session length is <b className="text-white">{activeKpis.avgSessionLength}</b> with <b className="text-white">{activeKpis.avgMessagesPerConvo} msgs/convo</b>.
+                  {activeKpis.bounceRate > 25
                     ? `Bounce rate at ${activeKpis.bounceRate}% is high — improve your opening message or starter prompts.`
                     : `Bounce rate at ${activeKpis.bounceRate}% is healthy. Users are finding value quickly.`
                   }
@@ -2063,9 +2063,9 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
                   <span className="text-[10px] text-[#f59e0b] font-bold uppercase tracking-wider">Retention</span>
                 </div>
                 <p className="text-[11px] text-[#d4d4d8] leading-relaxed">
-                  <b className="text-white">{activeKpis.returningUsers}%</b> of users return within 7 days. 
-                  Activation rate is <b className="text-white">{activeKpis.activationRate}%</b>. 
-                  {activeKpis.returningUsers < 30 
+                  <b className="text-white">{activeKpis.returningUsers}%</b> of users return within 7 days.
+                  Activation rate is <b className="text-white">{activeKpis.activationRate}%</b>.
+                  {activeKpis.returningUsers < 30
                     ? 'Focus on improving first-session experience to boost retention.'
                     : 'Retention is strong — consider adding advanced features for power users.'
                   }
@@ -2094,38 +2094,38 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
           <div>
             <p className="text-xs font-bold text-[#a1a1aa] uppercase tracking-widest mb-2.5">Engagement</p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-              <KPI 
-                label="Total Chats"  
-                value={activeKpis.totalChats.toLocaleString()}  
-                trend={activeKpis.totalChatsTrend} 
-                icon={MessageSquare} 
-                accent="#19c37d" 
+              <KPI
+                label="Total Chats"
+                value={activeKpis.totalChats.toLocaleString()}
+                trend={activeKpis.totalChatsTrend}
+                icon={MessageSquare}
+                accent="#19c37d"
                 definition={METRIC_DEFINITIONS['Total Chats']}
                 hideTrend={selectedPeriod === 'all'}
               />
-              <KPI 
-                label="Unique Users" 
-                value={activeKpis.uniqueUsers.toLocaleString()} 
-                trend={activeKpis.uniqueUsersTrend} 
-                icon={Users}         
-                accent="#6366f1" 
+              <KPI
+                label="Unique Users"
+                value={activeKpis.uniqueUsers.toLocaleString()}
+                trend={activeKpis.uniqueUsersTrend}
+                icon={Users}
+                accent="#6366f1"
                 definition={METRIC_DEFINITIONS['Unique Users']}
                 hideTrend={selectedPeriod === 'all'}
               />
-              <KPI 
-                label="Avg Session"  
-                value={activeKpis.avgSessionLength}                        
-                icon={Clock}         
-                accent="#06b6d4" 
+              <KPI
+                label="Avg Session"
+                value={activeKpis.avgSessionLength}
+                icon={Clock}
+                accent="#06b6d4"
                 definition={METRIC_DEFINITIONS['Avg Session']}
                 hideTrend={selectedPeriod === 'all'}
               />
-              <KPI 
-                label="Msgs / Convo"  
-                value={activeKpis.avgMessagesPerConvo}          
-                trend={activeKpis.msgsTrend}  
-                icon={BarChart2}     
-                accent="#f59e0b" 
+              <KPI
+                label="Msgs / Convo"
+                value={activeKpis.avgMessagesPerConvo}
+                trend={activeKpis.msgsTrend}
+                icon={BarChart2}
+                accent="#f59e0b"
                 definition={METRIC_DEFINITIONS['Msgs / Convo']}
                 hideTrend={selectedPeriod === 'all'}
               />
@@ -2135,38 +2135,38 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
           <div>
             <p className="text-xs font-bold text-[#a1a1aa] uppercase tracking-widest mb-2.5">Quality</p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
-              <KPI 
-                label="Activation Rate"  
-                value={`${activeKpis.activationRate}%`}   
-                trend={activeKpis.activationTrend}  
-                icon={Zap}         
-                accent="#10b981" 
+              <KPI
+                label="Activation Rate"
+                value={`${activeKpis.activationRate}%`}
+                trend={activeKpis.activationTrend}
+                icon={Zap}
+                accent="#10b981"
                 definition={METRIC_DEFINITIONS['Activation Rate']}
                 hideTrend={selectedPeriod === 'all'}
               />
-              <KPI 
-                label="Returning Users"  
-                value={`${activeKpis.returningUsers}%`}   
-                trend={activeKpis.returningTrend}  
-                icon={Activity}    
-                accent="#8b5cf6" 
+              <KPI
+                label="Returning Users"
+                value={`${activeKpis.returningUsers}%`}
+                trend={activeKpis.returningTrend}
+                icon={Activity}
+                accent="#8b5cf6"
                 definition={METRIC_DEFINITIONS['Returning Users']}
                 hideTrend={selectedPeriod === 'all'}
               />
-              <KPI 
-                label="Bounce Rate"      
-                value={`${activeKpis.bounceRate}%`}        
-                trend={activeKpis.bounceTrend} 
-                icon={TrendingDown} 
-                accent="#ef4444" 
+              <KPI
+                label="Bounce Rate"
+                value={`${activeKpis.bounceRate}%`}
+                trend={activeKpis.bounceTrend}
+                icon={TrendingDown}
+                accent="#ef4444"
                 definition={METRIC_DEFINITIONS['Bounce Rate']}
                 hideTrend={selectedPeriod === 'all'}
               />
-              <KPI 
-                label="Avg Tokens / Session" 
-                value={activeKpis.avgTokensPerSession.toLocaleString()} 
-                icon={Cpu}     
-                accent="#ec4899" 
+              <KPI
+                label="Avg Tokens / Session"
+                value={activeKpis.avgTokensPerSession.toLocaleString()}
+                icon={Cpu}
+                accent="#ec4899"
                 definition={METRIC_DEFINITIONS['Avg Tokens / Session']}
                 hideTrend={selectedPeriod === 'all'}
               />
@@ -2193,12 +2193,12 @@ export default function AnalyticsDashboard({ gpt, onBack }) {
         </div>
 
         {/* Tab content */}
-        {activeTab === 'Overview'   && <OverviewTab   data={data} selectedPeriod={selectedPeriod} />}
-        {activeTab === 'Models'     && <ModelsTab     data={data} />}
-        {activeTab === 'Tools'      && <ToolsTab      data={data} />}
-        {activeTab === 'Knowledge'  && <KnowledgeTab  data={data} />}
-        {activeTab === 'Retention'  && <RetentionTab  data={data} />}
-        {activeTab === 'Safety'     && <SafetyTab     data={data} />}
+        {activeTab === 'Overview' && <OverviewTab data={data} selectedPeriod={selectedPeriod} />}
+        {activeTab === 'Models' && <ModelsTab data={data} />}
+        {activeTab === 'Tools' && <ToolsTab data={data} />}
+        {activeTab === 'Knowledge' && <KnowledgeTab data={data} />}
+        {activeTab === 'Retention' && <RetentionTab data={data} />}
+        {activeTab === 'Safety' && <SafetyTab data={data} />}
 
         {/* Footer */}
         <div className="mt-6 p-4 rounded-xl bg-[#141414] border border-[#262626]">
