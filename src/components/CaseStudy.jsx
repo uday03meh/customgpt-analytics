@@ -532,9 +532,9 @@ const ANALYTICS = [
 ];
 
 const TABS = [
-  { id: 'project', label: 'WHAT?', short: 'Overview' },
-  { id: 'story', label: 'WHY?', short: 'Story' },
-  { id: 'build', label: 'HOW?', short: 'Build' },
+  { id: 'project', label: '🏠︎', short: 'Overview' },
+  { id: 'story', label: 'How It Started?', short: 'Story' },
+  { id: 'build', label: 'How I Built It?', short: 'Build' },
 ];
 
 export default function CaseStudy() {
@@ -577,7 +577,7 @@ export default function CaseStudy() {
         key={tab.id}
         onClick={() => switchTab(tab.id)}
         className={clsx(
-          'px-3.5 py-1.5 rounded-lg text-[16px] font-bold transition-all duration-150 active:scale-[0.97]',
+          'px-3.5 py-1.5 rounded-lg text-[14px] font-bold transition-all duration-150 active:scale-[0.97]',
           mobile && 'flex-1',
           activeTab === tab.id
             ? 'bg-white text-stone-900 shadow-sm'
