@@ -7,6 +7,7 @@ import AnalyticsDashboard from './components/AnalyticsDashboard';
 import CaseStudy from './components/CaseStudy';
 import { myGPTs } from './data/mockData';
 import { Sparkles } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 
 // ─── Wrapper that reads :gptId from URL and renders the dashboard ─────────────
 function AnalyticsRoute({ collapsed, setCollapsed }) {
@@ -147,14 +148,17 @@ export default function App() {
   }, []);
 
   return (
-    <Routes>
-      <Route path="/" element={<CaseStudy />} />
-      <Route path="/case-study" element={<Navigate to="/" replace />} />
-      <Route path="/story" element={<Navigate to="/" replace />} />
-      <Route path="/gpts" element={<MyGPTsPage collapsed={collapsed} setCollapsed={setCollapsed} />} />
-      <Route path="/gpts/all" element={<AllGPTsPage collapsed={collapsed} setCollapsed={setCollapsed} />} />
-      <Route path="/gpts/:gptId/analytics" element={<AnalyticsPage collapsed={collapsed} setCollapsed={setCollapsed} />} />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <>
+      <Routes>
+        <Route path="/" element={<CaseStudy />} />
+        <Route path="/case-study" element={<Navigate to="/" replace />} />
+        <Route path="/story" element={<Navigate to="/" replace />} />
+        <Route path="/gpts" element={<MyGPTsPage collapsed={collapsed} setCollapsed={setCollapsed} />} />
+        <Route path="/gpts/all" element={<AllGPTsPage collapsed={collapsed} setCollapsed={setCollapsed} />} />
+        <Route path="/gpts/:gptId/analytics" element={<AnalyticsPage collapsed={collapsed} setCollapsed={setCollapsed} />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+      <Analytics />
+    </>
   );
 }
