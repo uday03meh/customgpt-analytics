@@ -1,10 +1,10 @@
 # CustomGPT Analytics Dashboard
 
 A concept analytics dashboard that reimagines how ChatGPT custom GPT creators could track and analyze their GPT's performance. Built as a pixel-perfect extension of ChatGPT's native dark UI, this dashboard provides comprehensive analytics across engagement, retention, tool usage, knowledge base performance, and safety metrics.
-
+<div style="text-align: center;">
 <img width="1364" height="635" alt="image" src="https://github.com/user-attachments/assets/2d449b41-5930-4972-bd4f-bbfe3a706f6f" />
 
-
+</div>
 > **Note:** This is a concept/demo project. It uses mock data.
 
 ---
